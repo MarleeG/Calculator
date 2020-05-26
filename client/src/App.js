@@ -5,13 +5,13 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
-import Calc from "./application/page/calc";
+import Home from "./application/page/home";
 
 const App = () => {
   const routes = (
     <Switch>
       <Route path="/" exact>
-        <Calc />
+        <Home />
       </Route>
 
       <Redirect to="/" />
