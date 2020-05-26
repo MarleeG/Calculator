@@ -1,0 +1,29 @@
+.calc__container{
+    border: 1px solid black;
+    width: 70%;
+    height: 70%;
+    padding: 10px;
+}
+
+.calc__input-wrap{
+    border: 2px dotted pink;
+    height: 20%;
+}
+
+.calc__buttons-wrap{
+    display: flex;
+    flex-direction: row;
+}
+
+.calc__col-one{
+    width: 70%;
+    height: 100%;
+    border: 2px dotted red;
+}
+
+.calc__col-two{
+    width: 30%;
+    border: 2px dotted red;
+    height: 100%;
+
+}

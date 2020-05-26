@@ -1,0 +1,47 @@
+.home__container {
+  height: 90vh;
+  width: 90vw;
+  padding: 15px;
+  background-color: honeydew;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+
+}
+
+.home__wrapper {
+  /* border: 2px dotted goldenrod; */
+  padding: 5px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+
+}
+
+.row {
+  border: 2px dotted blue;
+  width: 100%;
+}
+
+.home__wrapper .row-one h1 {
+  margin: 0;
+}
+
+.row-one {
+  /* height: 1%; */
+  height: 10%;
+}
+
+.row-two{
+    height: 90%;
+    width: 100%;
+    padding: 20px;
+}
+
+
+/* calculator */
+.calc__wrapper{
+  /* border: 2px dotted green; */
+  height: 100%;
+  width: 100%;
+}
