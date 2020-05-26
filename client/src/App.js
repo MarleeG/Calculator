@@ -1,19 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
+import Calc from "./application/page/calc";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-          React Calculator
-      </header>
-    </div>
+const App = () => {
+  const routes = (
+    <Switch>
+      <Route path="/" exact>
+        <Calc />
+      </Route>
+
+      <Redirect to="/" />
+    </Switch>
   );
-}
+  return <Router>{routes}</Router>;
+};
 
 export default App;
