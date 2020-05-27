@@ -19,6 +19,9 @@
     width: 70%;
     height: 100%;
     border: 2px dotted red;
+    padding: 5px;
+    /* display: flex;
+    flex */
 }
 
 .calc__col-two{
