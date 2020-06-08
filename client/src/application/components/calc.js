@@ -5,6 +5,7 @@ import "./calc.css";
 import Button from "../../shared/UIElements/Button";
 import Input from "../../shared/UIElements/Input";
 
+const log = console.log;
 const Calc = (props) => {
   const numStyle = {
     width: "7vw",
@@ -21,26 +22,51 @@ const Calc = (props) => {
     },
     default: {
       width: "80%",
-      height: "5.5`vw",
+      height: "5.5vw",
     },
   };
 
   const [allNums, setAllNum] = useState([]);
   const [allOperations, setAllOperations] = useState([]);
   const [selectedBtns, setSelectedBtns] = useState([]);
-  const selectedValue  = useRef();
 
-  const updateSelectedBtn = (btnVal) => {
-    setSelectedBtns([...selectedBtns, btnVal]);
+  const selectedValue = useRef();
+
+  const checkBackSelection = (back) => {
+    let newSelectBtns = selectedBtns;
+
+    if (back === "←") {
+      if (newSelectBtns.length === 1) {
+        setSelectedBtns([]);
+      } else {
+        newSelectBtns = newSelectBtns.filter((val) => val !== "←");
+
+        newSelectBtns = newSelectBtns.splice(0, newSelectBtns.length - 1);
+        setSelectedBtns(newSelectBtns);
+      }
+
+      // setSelectedBtns(newSelectBtns.pop());
+      log(`BACK SELECTED:: ${back}`);
+      log("newSelectBtns:: ", newSelectBtns);
+
+      // setSelectedBtns()
+    }
   };
-  
-  const handleChange = e => {
-    
-  }
+  const updateSelectedBtn = (btnVal) => {
+    if (btnVal !== "←") {
+      setSelectedBtns([...selectedBtns, btnVal]);
+    } else {
+      // back btn selected
+      checkBackSelection(btnVal);
+    }
+  };
+
+  const handleChange = (e) => {};
 
   useEffect(() => {
     setAllNum(numbers());
     setAllOperations(operations());
+
     console.log(selectedBtns);
   }, [selectedBtns]);
 
@@ -53,11 +79,13 @@ const Calc = (props) => {
           {/* <h3>Input</h3> */}
           {/* <input type="text" value={selectedBtns.join(" ")} name="selection" ref={selectedValue} onChange={handleChange} disabled/> */}
 
-          <Input 
-          value={selectedBtns.join(" ")} 
-          onChange={handleChange} 
-          ref={selectedValue}
-          disabled/>
+          <Input
+            // value={selectedBtns.filter((val) => val !== "←").join(" ")}
+            value={selectedBtns.join(" ")}
+            onChange={handleChange}
+            refSelectedValue={selectedValue}
+            disabled
+          />
         </div>
         <div className="calc__buttons-wrap">
           <div className="calc__col calc__col-one">
