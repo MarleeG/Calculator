@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { numbers, operations } from "../../shared/data/data";
 
 import "./calc.css";
@@ -29,8 +29,31 @@ const Calc = (props) => {
   const [allNums, setAllNum] = useState([]);
   const [allOperations, setAllOperations] = useState([]);
   const [selectedBtns, setSelectedBtns] = useState([]);
+  const [disableOperations, setDisableOperations] = useState(true);
 
   const selectedValue = useRef();
+
+  // this will disable all operation buttons if that was the last selection
+  const disableOperationBtns = useCallback(() => {
+    log(`last Value: ${selectedBtns[selectedBtns.length - 1]}`);
+
+    switch (selectedBtns[selectedBtns.length - 1]) {
+      case "+":
+        setDisableOperations(true);
+        break;
+      case "-":
+        setDisableOperations(true);
+        break;
+      case "*":
+        setDisableOperations(true);
+        break;
+      case "/":
+        setDisableOperations(true);
+        break;
+      default:
+        setDisableOperations(false);
+    }
+  });
 
   const checkBackSelection = (back) => {
     let newSelectBtns = selectedBtns;
@@ -45,13 +68,11 @@ const Calc = (props) => {
         setSelectedBtns(newSelectBtns);
       }
 
-      // setSelectedBtns(newSelectBtns.pop());
-      log(`BACK SELECTED:: ${back}`);
-      log("newSelectBtns:: ", newSelectBtns);
-
-      // setSelectedBtns()
+      // log(`BACK SELECTED:: ${back}`);
+      // log("newSelectBtns:: ", newSelectBtns);
     }
   };
+
   const updateSelectedBtn = (btnVal) => {
     if (btnVal !== "←") {
       setSelectedBtns([...selectedBtns, btnVal]);
@@ -68,7 +89,13 @@ const Calc = (props) => {
     setAllOperations(operations());
 
     console.log(selectedBtns);
-  }, [selectedBtns]);
+
+    if (selectedBtns.length > 0) {
+      disableOperationBtns();
+    }else if(selectedBtns.length === 0){
+      setDisableOperations(true);
+    }
+  }, [selectedBtns, disableOperationBtns]);
 
   return (
     <div className="calc__container">
@@ -113,6 +140,7 @@ const Calc = (props) => {
                     styles={operationStyles.operationStyle}
                     value={op}
                     updateSelectedBtn={updateSelectedBtn}
+                    disabled={disableOperations}
                   />
                 );
               } else {
@@ -122,6 +150,7 @@ const Calc = (props) => {
                     styles={operationStyles.default}
                     value={op}
                     updateSelectedBtn={updateSelectedBtn}
+                    disabled={disableOperations}
                   />
                 );
               }
