@@ -124,6 +124,7 @@ const Calc = (props) => {
                   styles={numStyle}
                   value={num}
                   updateSelectedBtn={updateSelectedBtn}
+                  disabled={selectedBtns.length === 0 && num === "←" }
                 />
               );
             })}
