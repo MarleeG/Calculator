@@ -35,7 +35,7 @@ const Calc = (props) => {
 
   // this will disable all operation buttons if that was the last selection
   const disableOperationBtns = useCallback(() => {
-    log(`last Value: ${selectedBtns[selectedBtns.length - 1]}`);
+    // log(`last Value: ${selectedBtns[selectedBtns.length - 1]}`);
 
     switch (selectedBtns[selectedBtns.length - 1]) {
       case "+":
@@ -74,8 +74,13 @@ const Calc = (props) => {
   };
 
   const updateSelectedBtn = (btnVal) => {
-    if (btnVal !== "←") {
+    log(`selection: ${btnVal}`);
+
+    const condition = btnVal !== "←" && btnVal !== "=";
+
+    if (condition) {
       setSelectedBtns([...selectedBtns, btnVal]);
+
     } else {
       // back btn selected
       checkBackSelection(btnVal);
@@ -88,11 +93,11 @@ const Calc = (props) => {
     setAllNum(numbers());
     setAllOperations(operations());
 
-    console.log(selectedBtns);
+    // console.log(selectedBtns);
 
     if (selectedBtns.length > 0) {
       disableOperationBtns();
-    }else if(selectedBtns.length === 0){
+    } else if (selectedBtns.length === 0) {
       setDisableOperations(true);
     }
   }, [selectedBtns, disableOperationBtns]);
@@ -124,7 +129,7 @@ const Calc = (props) => {
                   styles={numStyle}
                   value={num}
                   updateSelectedBtn={updateSelectedBtn}
-                  disabled={selectedBtns.length === 0 && num === "←" }
+                  disabled={selectedBtns.length === 0 && num === "←"}
                 />
               );
             })}
