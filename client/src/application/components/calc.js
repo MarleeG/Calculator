@@ -216,7 +216,7 @@ const Calc = (props) => {
     }
 
     setAnswer(entries);
-    setSelectedBtns([]);
+    setSelectedBtns([entries[0]]);
 
     log("-----------------------------------");
   };
