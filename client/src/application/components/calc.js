@@ -6,33 +6,32 @@ import Button from "../../shared/UIElements/Button";
 import Input from "../../shared/UIElements/Input";
 
 const log = console.log;
-const Calc = (props) => {
-  const numStyle = {
+
+const numStyle = {
+  width: "7vw",
+  height: "7vw",
+  borderRadius: "20px",
+  margin: "10px",
+};
+
+const operationStyles = {
+  operationStyle: {
     width: "7vw",
-    height: "7vw",
-    borderRadius: "20px",
-    margin: "10px",
-  };
+    height: "10vw",
+    borderRadius: "10px",
+  },
+  default: {
+    width: "80%",
+    height: "5.5vw",
+  },
+};
 
-  const operationStyles = {
-    operationStyle: {
-      width: "7vw",
-      height: "10vw",
-      borderRadius: "10px",
-    },
-    default: {
-      width: "80%",
-      height: "5.5vw",
-    },
-  };
-
+const Calc = (props) => {
   const [allNums, setAllNum] = useState([]);
   const [allOperations, setAllOperations] = useState([]);
   const [selectedBtns, setSelectedBtns] = useState([]);
   const [disableOperations, setDisableOperations] = useState(true);
   const [answer, setAnswer] = useState([]);
-
-
 
   // this will disable all operation buttons if that was the last selection
   const disableOperationBtns = useCallback(() => {
@@ -56,292 +55,24 @@ const Calc = (props) => {
     }
   }, [selectedBtns]);
 
-  const calculateEntry = () => {
-    // Keep in mind PE| MDAS
-    let example = ["2", "*", "1525", "/", "58586", "+", "5858", "*", "76"];
-    var exampleCopy = example;
-    var updateCalc = [];
-    let selectedIndicies = [];
-
-    // get the index of the multiplication
-    let multiplyIndex = exampleCopy.indexOf("*");
-
-    var counter = 0;
-
-    let continueMultiplicationLoop = false;
-
-    if (multiplyIndex > 0) {
-      continueMultiplicationLoop = true;
-    }
-
-    while (continueMultiplicationLoop) {
-      log("multiplyIndex:: ", multiplyIndex);
-
-      log("Example Copy:: ", exampleCopy);
-      const num1Index = multiplyIndex - 1;
-      const num2Index = multiplyIndex + 1;
-
-      // these are the 2 values for operation
-      const num1 = parseInt(exampleCopy[num1Index]);
-      const num2 = parseInt(exampleCopy[num2Index]);
-
-      log(`${num1} * ${num2} = ${num1 * num2}`);
-      // log(`num2: ${num2}`);
-
-      const value = num1 * num2;
-
-      // const relatedIndices = [multiplyIndex, num1Index, num2Index];
-
-      exampleCopy = example.join(" ");
-
-      exampleCopy = exampleCopy.replace("*", value);
-
-      exampleCopy = exampleCopy.split(" ");
-
-      log("AFTER SPLIT:: ", exampleCopy);
-
-      selectedIndicies.push(num1Index);
-      selectedIndicies.push(num2Index);
-
-      for (let i = 0; i < exampleCopy.length; i++) {
-        // if (i !== num1Index && i !== num2Index) {
-        //   updateCalc.push(exampleCopy[i]);
-        // }
-
-        if (selectedIndicies.indexOf(i) === -1) {
-          updateCalc.push(exampleCopy[i]);
-        }
-      }
-
-      // log("Updated Calc: ", updateCalc);
-      // log("ORIGINAL EXP:: ", example);
-      // log("SELECTED INDICES:: ", selectedIndicies);
-
-      // exampleCopy = updateCalc;
-      // example = updateCalc;
-      multiplyIndex = exampleCopy.indexOf("*");
-
-      log("Updated Calc: ", updateCalc);
-      log("ORIGINAL EXP:: ", example);
-      log("SELECTED INDICES:: ", selectedIndicies);
-
-      counter++;
-
-      if (counter === 4) {
-        multiplyIndex = -1;
-        continueMultiplicationLoop = false;
-        log("INFINITE LOOP");
-      }
-
-      if (multiplyIndex === -1) {
-        continueMultiplicationLoop = false;
-      }
-    }
-  };
-
-  const calculateEntryTwo = () => {
-    // Keep in mind PE| MDAS
-
-    let dummyEntry = [
-      "2",
-      "*",
-      "1525",
-      "/",
-      "58586",
-      "+",
-      "5858",
-      "*",
-      "76",
-      "*",
-      "5",
-    ];
-    let entries = dummyEntry;
-    let objectifiedEntries = [];
-
-    for (let i = 0; i < entries.length; i++) {
-      objectifiedEntries.push({ num: entries[i], used: false });
-    }
-
-    log("ORIGINAL objectifiedEntries:: ", objectifiedEntries);
-
-    let continueMultiplicationLoop = false;
-    let multiplyIndex = entries.indexOf("*");
-
-    if (multiplyIndex > 0) {
-      continueMultiplicationLoop = true;
-    }
-
-    let counter = 0;
-    // MULTIPLICATION
-    while (continueMultiplicationLoop) {
-      const num1Index = multiplyIndex - 1;
-      const num2Index = multiplyIndex + 1;
-      // these are the 2 values for the operation
-      const num1 = parseInt(entries[num1Index]);
-      const num2 = parseInt(entries[num2Index]);
-
-      log(`${num1} * ${num2} = ${num1 * num2}`);
-      const value = num1 * num2;
-
-      // log("LOOP OBJECTIFIED ENTRIES:: ", objectifiedEntries);
-
-      // this updated which values have been used
-      objectifiedEntries[num1Index].used = true;
-      objectifiedEntries[num2Index].used = true;
-      // objectifiedEntries[multiplyIndex].used = true;
-      objectifiedEntries[multiplyIndex].num = value;
-
-      log("OBJECTIFIED ENTRIES:: ", objectifiedEntries);
-
-      // this updates the entries array with unused numbers
-      let newEntries = [];
-      for (let x = 0; x < objectifiedEntries.length; x++) {
-        if (objectifiedEntries[x].used === false) {
-          newEntries.push(objectifiedEntries[x].num);
-        }
-      }
-
-      entries = newEntries;
-      log("NEW ENTRIES:: ", entries);
-
-      // this updates objectified array
-      let newObjectifiedEntries = [];
-      for (let y = 0; y < objectifiedEntries.length; y++) {
-        let num = objectifiedEntries[y].num;
-        let entryIsUsed = objectifiedEntries[y].used;
-
-        if (entryIsUsed === false) {
-          let obj = { num: num, used: false };
-          newObjectifiedEntries.push(obj);
-        }
-      }
-
-      objectifiedEntries = newObjectifiedEntries;
-      log("objectifiedEntries:: ", objectifiedEntries);
-
-      // updates multiplication index
-      multiplyIndex = entries.indexOf("*");
-
-      if (multiplyIndex === -1) {
-        continueMultiplicationLoop = false;
-        log("STOP LOOP");
-      }
-
-      // in case of inifinite loop
-      // counter++;
-      // if (counter === 7) {
-      //   continueMultiplicationLoop = false;
-      //   log("INFINITE LOOP");
-      // }
-    }
-
-    // DIVISION
-    let continueDivisionLoop = false;
-    let divisionIndex = entries.indexOf("/");
-    log("divisionIndex:: ", divisionIndex);
-
-    if (divisionIndex > 0) {
-      continueDivisionLoop = true;
-    }
-
-    while (continueDivisionLoop) {
-      log(`DIVISION LOOP`);
-      const num1Index = divisionIndex - 1;
-      const num2Index = divisionIndex + 1;
-      // these are the 2 values for the operation
-      const num1 = parseInt(entries[num1Index]);
-      const num2 = parseInt(entries[num2Index]);
-
-      log(`${num1} / ${num2} = ${num1 / num2}`);
-      const value = num1 / num2;
-
-      // log("LOOP OBJECTIFIED ENTRIES:: ", objectifiedEntries);
-
-      // this updated which values have been used
-      objectifiedEntries[num1Index].used = true;
-      objectifiedEntries[num2Index].used = true;
-      // objectifiedEntries[divisionIndex].used = true;
-      objectifiedEntries[divisionIndex].num = value;
-
-      log("OBJECTIFIED ENTRIES:: ", objectifiedEntries);
-
-      // // this updates the entries array with unused numbers
-      let newEntries = [];
-      for (let x = 0; x < objectifiedEntries.length; x++) {
-        if (objectifiedEntries[x].used === false) {
-          newEntries.push(objectifiedEntries[x].num);
-        }
-      }
-
-      // entries = newEntries;
-      // log('NEW ENTRIES:: ', entries);
-
-      // // this updates objectified array
-      let newObjectifiedEntries = [];
-      for (let y = 0; y < objectifiedEntries.length; y++) {
-        let num = objectifiedEntries[y].num;
-        let entryIsUsed = objectifiedEntries[y].used;
-
-        if (entryIsUsed === false) {
-          let obj = { num: num, used: false };
-          newObjectifiedEntries.push(obj);
-        }
-      }
-
-      objectifiedEntries = newObjectifiedEntries;
-      log("objectifiedEntries:: ", objectifiedEntries);
-
-      // // updates multiplication index
-      divisionIndex = entries.indexOf("/");
-
-      if (divisionIndex === -1) {
-        continueMultiplicationLoop = false;
-        log("STOP LOOP");
-      }
-
-      counter++;
-
-      if (counter > 3) {
-        continueDivisionLoop = false;
-        log("INFINITE LOOP");
-      }
-    }
-  };
-
   const executeAllOperations = () => {
+    log("-----------------------------------");
+    log("EXECUTE ALL OPERATIONS");
+
     // Keep in mind PE| MDAS
 
-    // let dummyEntry = [
-    //   "2",
-    //   "*",
-    //   "1525",
-    //   "/",
-    //   "58586",
-    //   "+",
-    //   "5858",
-    //   "*",
-    //   "76",
-    //   "*",
-    //   "5",
-    // ];
+    let allEntries = selectedBtns;
 
-    let dummyEntry = selectedBtns;
-    let entries = dummyEntry;
+    let entries = combineNumberEntries(allEntries);
     let objectifiedEntries = [];
+
+    log("SELECTED ENTRIES:: ", entries);
 
     for (let i = 0; i < entries.length; i++) {
       objectifiedEntries.push({ num: entries[i], used: false });
     }
 
     log("ORIGINAL objectifiedEntries:: ", objectifiedEntries);
-
-    let continueMultiplicationLoop = false;
-    // let multiplyIndex = entries.indexOf("*");
-    // let divideIndex = entries.indexOf("/");
-    // let addIndex = entries.indexOf("+");
-    // let subtractIndex = entries.indexOf("-");
-    // let operationsArray = ["Multiply", "Divide", 'Add', 'Subtract'];
-    // let operation = operationsArray[0];
 
     let multiplyIndex = entries.indexOf("*");
     let divideIndex = entries.indexOf("/");
@@ -354,9 +85,6 @@ const Calc = (props) => {
 
       if (multiplyIndex > 0) {
         operation = operationsArray[0];
-        // if (multiplyIndex > 0) {
-        //   continueMultiplicationLoop = true;
-        // }
       } else if (divideIndex > 0) {
         operation = operationsArray[1];
       } else if (addIndex > 0) {
@@ -365,14 +93,12 @@ const Calc = (props) => {
         operation = operationsArray[3];
       }
 
-      log(`OPERATION: ${operation}`);
       return operation;
     };
 
     updateOperation();
     let counter = 0;
-    // MULTIPLICATION
-    // continueMultiplicationLoop
+
     while (entries.length > 1) {
       let operation = updateOperation();
       let num1Index;
@@ -388,8 +114,8 @@ const Calc = (props) => {
           num1Index = multiplyIndex - 1;
           num2Index = multiplyIndex + 1;
 
-          num1 = parseInt(entries[num1Index]);
-          num2 = parseInt(entries[num2Index]);
+          num1 = parseFloat(entries[num1Index]);
+          num2 = parseFloat(entries[num2Index]);
 
           value = num1 * num2;
           log(`${num1} * ${num2} = ${num1 * num2}`);
@@ -399,8 +125,8 @@ const Calc = (props) => {
           num1Index = divideIndex - 1;
           num2Index = divideIndex + 1;
 
-          num1 = parseInt(entries[num1Index]);
-          num2 = parseInt(entries[num2Index]);
+          num1 = parseFloat(entries[num1Index]);
+          num2 = parseFloat(entries[num2Index]);
 
           value = num1 / num2;
           log(`${num1} / ${num2} = ${num1 / num2}`);
@@ -410,8 +136,8 @@ const Calc = (props) => {
           num1Index = addIndex - 1;
           num2Index = addIndex + 1;
 
-          num1 = parseInt(entries[num1Index]);
-          num2 = parseInt(entries[num2Index]);
+          num1 = parseFloat(entries[num1Index]);
+          num2 = parseFloat(entries[num2Index]);
 
           value = num1 + num2;
           log(`${num1} + ${num2} = ${num1 + num2}`);
@@ -420,8 +146,8 @@ const Calc = (props) => {
           num1Index = subtractIndex - 1;
           num2Index = subtractIndex + 1;
 
-          num1 = parseInt(entries[num1Index]);
-          num2 = parseInt(entries[num2Index]);
+          num1 = parseFloat(entries[num1Index]);
+          num2 = parseFloat(entries[num2Index]);
 
           value = num1 - num2;
           log(`${num1} - ${num2} = ${num1 - num2}`);
@@ -481,23 +207,18 @@ const Calc = (props) => {
       addIndex = entries.indexOf("+");
       subtractIndex = entries.indexOf("-");
 
-      // if (multiplyIndex === -1) {
-      //   continueMultiplicationLoop = false;
-      //   log("STOP LOOP");
-      // }
-
       // in case of inifinite loop
       counter++;
-      if (counter === 15) {
-        // continueMultiplicationLoop = false;
+      if (counter === 200) {
         entries = ["ERROR"];
         log("INFINITE LOOP");
       }
     }
 
-
     setAnswer(entries);
     setSelectedBtns([]);
+
+    log("-----------------------------------");
   };
 
   const checkOtherSelections = (btn) => {
@@ -512,13 +233,7 @@ const Calc = (props) => {
         newSelectBtns = newSelectBtns.splice(0, newSelectBtns.length - 1);
         setSelectedBtns(newSelectBtns);
       }
-
-      // log(`BACK SELECTED:: ${back}`);
-      // log("newSelectBtns:: ", newSelectBtns);
     } else if (btn === "=") {
-      // calculateEntry();
-      // calculateEntryTwo();
-      // setCalculate(true);
       executeAllOperations();
     }
   };
@@ -526,10 +241,10 @@ const Calc = (props) => {
   const updateSelectedBtn = (btnVal) => {
     // this removes answer array if any values
     // resets answer array in useState
-    if(answer.length > 0){
+    if (answer.length > 0) {
       setAnswer([]);
     }
-    
+
     log(`selection: ${btnVal}`);
 
     // This conditions what values are displayed in the input. Back BTN && Equal sign will not be displayed is not registered
@@ -545,9 +260,49 @@ const Calc = (props) => {
 
   const handleChange = (e) => {};
 
+  const combineNumberEntries = useCallback((arrayOfEntries) => {
+    log("-----------------------------------");
+    log("COMBINE NUMBER ENTRIES");
+
+    // let dummyEntries = ["1" , "5", "2", "+", "4", "8", "7", "-", "4", "8", "7"];
+    let currentEntries = arrayOfEntries;
+
+    let selection = currentEntries;
+    log("Current Entries: ", selection);
+
+    let wholeNum = "";
+    let updatedSelection = [];
+    for (let i = 0; i < selection.length; i++) {
+      let entry = selection[i];
+
+      let entryIsNumber = Number.isInteger(parseInt(entry));
+
+      if (entryIsNumber || entry === ".") {
+        wholeNum += entry;
+
+        if(i === selection.length - 1){
+          updatedSelection.push(wholeNum);
+        }
+      } else {
+        // entry is an operation
+        updatedSelection.push(wholeNum);
+        updatedSelection.push(entry);
+        wholeNum = "";
+      }
+
+      log("wholeNum:: "+ wholeNum);
+    }
+
+    log("updatedSelection:: ", updatedSelection);
+
+    log("-----------------------------------");
+    return updatedSelection;
+  }, []);
+
   useEffect(() => {
     setAllNum(numbers());
     setAllOperations(operations());
+
     if (selectedBtns.length > 0) {
       disableOperationBtns();
     } else if (selectedBtns.length === 0) {
@@ -566,7 +321,7 @@ const Calc = (props) => {
 
           <Input
             // value={selectedBtns.filter((val) => val !== "←").join(" ")}
-            entries={answer.length > 0 ? answer :selectedBtns.join(" ")}
+            entries={answer.length > 0 ? answer : selectedBtns.join(" ")}
             answer={answer}
             onChange={handleChange}
             disabled
