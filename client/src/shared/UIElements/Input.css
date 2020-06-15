@@ -10,5 +10,6 @@ input{
     /* overflow-x: auto; */
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 
 }
