@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Home from "./application/page/home";
 
+import './App.css';
 const App = () => {
   const routes = (
     <Switch>
@@ -17,7 +18,7 @@ const App = () => {
       <Redirect to="/" />
     </Switch>
   );
-  return <Router>{routes}</Router>;
+  return  <Router>{routes}</Router>;
 };
 
 export default App;

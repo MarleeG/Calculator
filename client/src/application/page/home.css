@@ -2,9 +2,19 @@
   height: 90vh;
   width: 90vw;
   padding: 15px;
-  background-color: honeydew;
+  /* background-color: #fff; */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 3px;
 
+
+  background: #B993D6;  /* fallback for old browsers */
+  background-image: -webkit-linear-gradient(to right, #8CA6DB, #B993D6);  /* Chrome 10-25, Safari 5.1-6 */
+  background-image: linear-gradient(to right, #8CA6DB, #B993D6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+h1{
+  letter-spacing: 10px;
+  font-size: 40px;
 }
 
 .home__wrapper {
@@ -19,7 +29,7 @@
 }
 
 .row {
-  border: 2px dotted blue;
+  /* border: 2px dotted blue; */
   width: 100%;
 }
 
@@ -28,8 +38,8 @@
 }
 
 .row-one {
-  /* height: 1%; */
   height: 10%;
+  /* border-bottom: 1px solid #b993d6; */
 }
 
 .row-two{
