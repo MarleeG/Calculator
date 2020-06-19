@@ -1,15 +1,21 @@
 input{
     width: 100%;
     height: 100%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
+    border-bottom-width: 6px;
     background-color: white;
-    font-size: 2vw;
-    color: black;
+    font-size: 50px;
+    color:   #323334;
     font-family: monospace;
-    letter-spacing: 0px;
-    /* overflow-x: auto; */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 
+    border-radius: 3px;
+
+
+    background: #fff;  /* fallback for old browsers */
+
+
+    text-shadow: 2px 2px rgb(175,138,200);
 }

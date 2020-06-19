@@ -1,29 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=VT323&display=swap");
+/* font-family: 'Shadows Into Light', cursive; */
+
+/* font-family: 'VT323', monospace; */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.font-shadows {
+  font-family: "Shadows Into Light", cursive;
 }
 
-.center{
-  display:flex;
+.font-calc {
+  font-family: "VT323", monospace;
+}
+
+.center {
+  display: flex;
   text-align: center;
   justify-content: center;
   align-items: center;
   margin: 0;
 }
 
+.custom-box-shadow {
+  -webkit-box-shadow: 25px 58px 85px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 25px 58px 85px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 25px 58px 85px 0px rgba(0, 0, 0, 0.75);
+}
 
 .center {
   text-align: center;
@@ -40,4 +52,41 @@ code {
 
 .odd-radius {
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+.application_msg {
+  display: none;
+}
+
+/* media queries */
+
+@media only screen and (max-width: 454px) {
+  .calc__container {
+    display: none;
+  }
+
+  .application_msg {
+    display: block;
+    font-size: 15vw;
+    /* margin: auto; */
+
+    text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  margin: 2px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  }
+
+  .application_msg h3 {
+    text-align: center;
+  }
+
+  /* .home__container:before {
+    content: "";
+  } */
 }
