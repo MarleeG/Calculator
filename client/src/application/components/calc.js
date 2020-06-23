@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { numbers, operations } from "../../shared/data/data";
 
 import "./calc.css";
@@ -7,12 +7,12 @@ import Input from "../../shared/UIElements/Input";
 
 const log = console.log;
 
-
 const Calc = (props) => {
   const [allNums, setAllNum] = useState([]);
   const [allOperations, setAllOperations] = useState([]);
   const [selectedBtns, setSelectedBtns] = useState([]);
   const [disableOperations, setDisableOperations] = useState(true);
+  const [disableDot, setDisableDot] = useState(false);
   const [answer, setAnswer] = useState([]);
 
   // this will disable all operation buttons if that was the last selection
@@ -177,6 +177,7 @@ const Calc = (props) => {
     let newSelectBtns = selectedBtns;
 
     if (btn === "←") {
+      // disableDotHandler(selectedBtns);
       if (newSelectBtns.length === 1) {
         setSelectedBtns([]);
       } else {
@@ -190,26 +191,86 @@ const Calc = (props) => {
     }
   };
 
+  const disableDotHandler = (currentVal) => {
+    log('DISABLE DECIMAL');
+    setDisableDot(true);
+    let allValues = currentVal.filter(val => val !== "←");
+    allValues = allValues.filter(val => val !== '=');
+
+
+    let lastIndexMultiply = allValues.lastIndexOf("*");
+    let lastIndexDivide = allValues.lastIndexOf("/");
+    let lastIndexAdd = allValues.lastIndexOf("+");
+    let lastIndexSubtract = allValues.lastIndexOf("-");
+
+    let operationIndices = [
+      lastIndexMultiply,
+      lastIndexDivide,
+      lastIndexAdd,
+      lastIndexSubtract,
+    ];
+
+    let lastOperationIndex = Math.max(...operationIndices);
+    let isPositive = Math.sign(lastOperationIndex);
+
+    // if operation has been selected the following is executed 
+    // example:  [2,4,3, "+",1,2,4,]
+    if (isPositive === 1) {
+
+      // all numbers after the operation
+      // [1,2,4] or []
+      let lastNumberSet = allValues.splice(lastOperationIndex + 1);
+
+      // if array look like this [1,2,4]
+      if(lastNumberSet.length > 0){
+        if(lastNumberSet.indexOf('.') >= 0){
+          setDisableDot(true);
+          log('DISABLE DOT');
+
+          // else if it lastNumberSet array looks like this []
+        }else{
+          setDisableDot(false);
+        }
+
+        // if no operation has been selected but numbers have not been selected []
+      }else if(lastNumberSet.length === 0){
+        setDisableDot(false);
+      }
+      
+      // if no operation has been selected but numbers have been selected and decimal has been selected
+      // EX: [2,4,3]
+    } else if(allValues.indexOf(".") >= 0) {
+      setDisableDot(true);
+      log('ENABLE DOT');
+    }else{
+      setDisableDot(false);
+    }
+  };
+
   const updateSelectedBtn = (btnVal) => {
     // this removes answer array if any values
     // resets answer array in useState
     if (answer.length > 0) {
       setAnswer([]);
+      setDisableDot(false);
     }
 
     // This conditions what values are displayed in the input. Back BTN && Equal sign will not be displayed is not registered
     const condition = btnVal !== "←" && btnVal !== "=";
 
+    let values = [...selectedBtns, btnVal];
     if (condition) {
-      setSelectedBtns([...selectedBtns, btnVal]);
+      setSelectedBtns(values);
     } else {
       // back btn selected
       checkOtherSelections(btnVal);
+     
     }
   };
 
   const handleChange = (e) => {};
 
+  // This combines the number entries to make them into one ['1', '2', '+' ,'3'] would then equal ['12', '+', '3']
   const combineNumberEntries = useCallback((arrayOfEntries) => {
     let currentEntries = arrayOfEntries;
 
@@ -248,6 +309,8 @@ const Calc = (props) => {
     } else if (selectedBtns.length === 0) {
       setDisableOperations(true);
     }
+
+    disableDotHandler(selectedBtns);
   }, [selectedBtns, disableOperationBtns]);
 
   return (
@@ -272,7 +335,8 @@ const Calc = (props) => {
                   classes="btn-num"
                   value={num}
                   updateSelectedBtn={updateSelectedBtn}
-                  disabled={selectedBtns.length === 0 && num === "←"}
+                  disabled={(selectedBtns.length === 0 && num === "←") || (num === "." && disableDot)}
+                  // (disableDot && num === ".")
                 />
               );
             })}
