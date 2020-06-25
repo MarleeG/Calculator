@@ -17,7 +17,7 @@ const Home = () => {
 
       <div className="application_msg">
         <h3 className="font-calc">
-        This width is not supported. Please use a wider device.
+        This device size is not supported. Please use a larger device.
         </h3>
       </div>
       <div className="home__wrapper">
