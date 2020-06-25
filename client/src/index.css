@@ -71,22 +71,45 @@ body {
     /* margin: auto; */
 
     text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  margin: 2px;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    margin: 2px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .application_msg h3 {
     text-align: center;
   }
+}
 
-  /* .home__container:before {
-    content: "";
-  } */
+@media only screen and (max-height: 499px) {
+  .calc__container {
+    display: none;
+  }
+
+  .application_msg {
+    display: block;
+    font-size: 50px;
+    /* margin: auto; */
+
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    margin: 2px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .application_msg h3 {
+    text-align: center;
+  }
 }

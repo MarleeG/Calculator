@@ -367,7 +367,6 @@ const Calc = (props) => {
                   />
                 );
               }
-
               return btn;
             })}
           </div>
