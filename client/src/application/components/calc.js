@@ -5,8 +5,6 @@ import "./calc.css";
 import Button from "../../shared/UIElements/Button";
 import Input from "../../shared/UIElements/Input";
 
-const log = console.log;
-
 const Calc = (props) => {
   const [allNums, setAllNum] = useState([]);
   const [allOperations, setAllOperations] = useState([]);
@@ -192,7 +190,6 @@ const Calc = (props) => {
   };
 
   const disableDotHandler = (currentVal) => {
-    log('DISABLE DECIMAL');
     setDisableDot(true);
     let allValues = currentVal.filter(val => val !== "←");
     allValues = allValues.filter(val => val !== '=');
@@ -225,7 +222,6 @@ const Calc = (props) => {
       if(lastNumberSet.length > 0){
         if(lastNumberSet.indexOf('.') >= 0){
           setDisableDot(true);
-          log('DISABLE DOT');
 
           // else if it lastNumberSet array looks like this []
         }else{
@@ -241,7 +237,6 @@ const Calc = (props) => {
       // EX: [2,4,3]
     } else if(allValues.indexOf(".") >= 0) {
       setDisableDot(true);
-      log('ENABLE DOT');
     }else{
       setDisableDot(false);
     }
