@@ -1,12 +1,9 @@
 .home__container {
-  height: 90vh;
-  width: 90vw;
+  height: 98vh;
+  width: 98vw;
   padding: 15px;
-  /* background-color: #fff; */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 3px;
-
-
   background: #B993D6;  /* fallback for old browsers */
   background-image: -webkit-linear-gradient(to right, #8CA6DB, #B993D6);  /* Chrome 10-25, Safari 5.1-6 */
   background-image: linear-gradient(to right, #8CA6DB, #B993D6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -29,8 +26,8 @@ h1{
 }
 
 .row {
-  /* border: 2px dotted blue; */
   width: 100%;
+  margin: auto;
 }
 
 .home__wrapper .row-one h1 {
@@ -39,13 +36,14 @@ h1{
 
 .row-one {
   height: 10%;
-  /* border-bottom: 1px solid #b993d6; */
 }
 
 .row-two{
     height: 90%;
     width: 100%;
     padding: 20px;
+    margin-top: 20px;
+    /* border: 2px dotted green; */
 }
 
 
@@ -61,3 +59,9 @@ h1{
     display: none;
   }
 }
+
+/* @media only screen and (max-width: 701px) and (max-height: 501px)  {
+  h1{
+    display: none;
+  }
+} */
